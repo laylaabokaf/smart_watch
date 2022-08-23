@@ -29,15 +29,27 @@ public class timer_mode extends watch   implements Runnable {
                 String disp = "00:00:00";
                 hour = 0 ; minute = 0 ; second =0 ; millisecond = 0;
                 Printer.watch_Screen(disp);
+                on = false;
                 currentMode = stopWatchmode.stop;
         }
 
         public void start_stopwatch(){
-            if(currentMode ==stopWatchmode.stop ) {
+                on =false;
                 hour = 0;
                 minute = 0;
                 second = 0;
                 millisecond = 0;
+                Printer.watch_Screen(disp);
+                on = true;
+                //System.out.println(Thread.currentThread().getId());
+                Thread thread = new Thread(this);
+                //System.out.println(thread.getId());
+                thread.start();
+
+        }
+
+        public void resume_stopwatch(){
+            if(currentMode == stopWatchmode.pause) {
                 Printer.watch_Screen(disp);
                 on = true;
                 System.out.println(Thread.currentThread().getId());
@@ -45,24 +57,19 @@ public class timer_mode extends watch   implements Runnable {
                 System.out.println(thread.getId());
                 thread.start();
             }
-            else {
-                System.out.println("stop current timer first");
+            else{
+                System.out.println("can't resume if u didnt pause the stopwatch");
             }
         }
 
-        public void resume_stopwatch(){
-            Printer.watch_Screen(disp);
-            on = true;
-            System.out.println(Thread.currentThread().getId());
-            Thread thread = new Thread(this);
-            System.out.println(thread.getId());
-            thread.start();
-        }
-
-        public void  pause_watch(){
+        public void pause_watch(){
             if(currentMode == stopWatchmode.start) {
                 on = false;
                 Printer.watch_Screen(disp);
+                currentMode = stopWatchmode.pause;
+            }
+            else {
+                System.out.println("cant pause if the stopwatch didnt start!");
             }
         }
 
