@@ -27,18 +27,25 @@ public class timer_mode extends watch   implements Runnable {
         //“00:00:00”).
         public void C(){
                 String disp = "00:00:00";
-                hour = 0 ; minute = 0 ; second =0 ; millisecond = 0;
+            this.hour = 0;
+            this.minute = 0;
+            this.second = 0;
+            this.millisecond = 0;
+            changeLabel();
+            Printer.watch_Screen(disp);
                 Printer.watch_Screen(disp);
                 on = false;
                 currentMode = stopWatchmode.stop;
         }
 
         public void start_stopwatch(){
+                currentMode = stopWatchmode.start;
                 on =false;
-                hour = 0;
-                minute = 0;
-                second = 0;
-                millisecond = 0;
+                this.hour = 0;
+                this.minute = 0;
+                this.second = 0;
+                this.millisecond = 0;
+                 changeLabel();
                 Printer.watch_Screen(disp);
                 on = true;
                 //System.out.println(Thread.currentThread().getId());
@@ -50,6 +57,7 @@ public class timer_mode extends watch   implements Runnable {
 
         public void resume_stopwatch(){
             if(currentMode == stopWatchmode.pause) {
+                currentMode = stopWatchmode.start;
                 Printer.watch_Screen(disp);
                 on = true;
                 System.out.println(Thread.currentThread().getId());
