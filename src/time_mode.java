@@ -1,13 +1,10 @@
 import java.time.LocalTime;
 
-public class time_mode extends watch {
+public class time_mode{
 
     protected time_mode(){
     }
 
-    public watch A(){
-      return  this.set_mode();
-    }
     //B: Print the time in AM/PM mode.
      public void B(){
          String format;
@@ -33,8 +30,17 @@ public class time_mode extends watch {
          String minute = arr[1];
          Printer.watch_Screen(hour + ":" + minute + " " + format);
      }
-     //Print “Light”
+     //C : set an alarm after 2 min.
      public void C(){
-        Printer.watch_Screen("Light");
+        Thread t = new Thread(() -> {
+            try {
+                Printer.watch_Screen("alarm set ");
+                Thread.sleep(2*60*1000);
+                Printer.watch_Screen("time to woke up!!");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        t.start();
      }
 }

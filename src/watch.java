@@ -11,52 +11,67 @@ enum watch_mode {
 }
 
 /*
-watch class , is a singleton class " class that have just one object " .
-so we have one watch .
-we will also extend this class to 4 subclasses , each one will be a different mode .
+watch class , is a singleton class  .
+we will have only one  watch .
+the smartwatch modes will be a fields at the watch class , that will mack it easier to jump between them ,
+ each one will be a different class with different methods .
  */
-abstract class watch {
+public class watch {
+    private time_mode timeMode = new time_mode();
+    private date_mode dateMode = new date_mode();
+    private timer_mode timerMode = new timer_mode();
+    private brand_name_mode brandMode = new brand_name_mode();
     private watch_mode current_mode = watch_mode.time;
     private static watch single_watch = null;
-    protected watch()
-    {}
 
-   public abstract watch A();
-    public abstract void B();
-    public abstract void C();
+    private watch() {
+    }
 
-    public static watch getInstance()
-    {
+    //method A is the same for all modes , so we just jump to next mode
+    public void A() {
+        setCurrent_mode();
+    }
+
+
+    //B : will run the method b for the current mode
+    public void B() {
+        if (current_mode == watch_mode.time)
+            timeMode.B();
+        if (current_mode == watch_mode.date)
+            dateMode.B();
+        if (current_mode == watch_mode.timer)
+            timerMode.B();
+        if (current_mode == watch_mode.brand_name)
+            brandMode.B();
+    }
+
+
+    //C : will run the method c for the current mode
+    public void C() {
+        if (current_mode == watch_mode.time)
+            timeMode.C();
+        if (current_mode == watch_mode.date)
+            dateMode.C();
+        if (current_mode == watch_mode.timer)
+            timerMode.C();
+        if (current_mode == watch_mode.brand_name)
+            brandMode.C();
+
+    }
+
+    public static watch getInstance() {
         if (single_watch == null)
-            single_watch = new time_mode();
+            single_watch = new watch();
         return single_watch;
     }
-    private void setCurrent_mode(){
+
+    private void setCurrent_mode() {
         current_mode = current_mode.next();
     }
 
     /*
      set_mode() : when the user choose batten A , the mode will change to the next mode
     starting with "time" mode.
-    also the instance of the class "watch" will change to the new mode, so we can use the new mode functions!
      */
-    protected watch set_mode(){
-        //set to next mode
-         setCurrent_mode();
-         switch (current_mode){
-             case time:
-                 return single_watch = new time_mode();
-             case date:
-                return single_watch = new date_mode();
-             case timer:
-                 return single_watch = new timer_mode();
-             case brand_name:
-                 return  single_watch = new brand_name_mode();
-         }
-    return null;
-    }
-
-    public watch_mode getCurrent_mode() {
-        return current_mode;
-    }
 }
+
